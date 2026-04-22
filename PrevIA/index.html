@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="src/assets/PrevIa.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PrevIA - Gestión de Salud</title>
+  <script>
+    (function () {
+      try {
+        var theme = localStorage.getItem('theme') || 'system';
+        var daltonism = localStorage.getItem('daltonismType') || 'none';
+        var grayscale = localStorage.getItem('isGrayscale') === 'true';
+        var root = window.document.documentElement;
+        
+        // Apply Dark/Light Mode
+        if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          root.classList.add('dark');
+        } else {
+          root.classList.remove('dark');
+        }
+
+        // Apply Daltonism Filter
+        if (daltonism !== 'none') {
+          root.classList.add('daltonism-' + daltonism);
+        }
+
+        // Apply Grayscale Filter
+        if (grayscale) {
+          root.classList.add('grayscale-filter');
+        }
+      } catch (e) { }
+    })();
+  </script>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <!-- SVG Filters for Daltonism (Color Blindness) -->
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- Protanopia (Red-Blind) -->
+      <filter id="protanopia">
+        <feColorMatrix type="matrix" values="0.567, 0.433, 0, 0, 0, 0.558, 0.442, 0, 0, 0, 0, 0.242, 0.758, 0, 0, 0, 0, 0, 1, 0" />
+      </filter>
+      <!-- Deuteranopia (Green-Blind) -->
+      <filter id="deuteranopia">
+        <feColorMatrix type="matrix" values="0.625, 0.375, 0, 0, 0, 0.7, 0.3, 0, 0, 0, 0, 0.3, 0.7, 0, 0, 0, 0, 0, 1, 0" />
+      </filter>
+      <!-- Tritanopia (Blue-Blind) -->
+      <filter id="tritanopia">
+        <feColorMatrix type="matrix" values="0.95, 0.05, 0, 0, 0, 0, 0.433, 0.567, 0, 0, 0, 0.475, 0.525, 0, 0, 0, 0, 0, 1, 0" />
+      </filter>
+      <!-- Achromatopsia (Total Color-Blind) -->
+      <filter id="achromatopsia">
+        <feColorMatrix type="matrix" values="0.299, 0.587, 0.114, 0, 0, 0.299, 0.587, 0.114, 0, 0, 0.299, 0.587, 0.114, 0, 0, 0, 0, 0, 1, 0" />
+      </filter>
+    </defs>
+  </svg>
+
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
+</html>
